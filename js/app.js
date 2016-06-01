@@ -1,3 +1,4 @@
+"use strict";
 
 /**
  * @constructor for Enemy
@@ -58,19 +59,19 @@ Enemy.prototype.render = function() {
  *
  * @constructor for Player
  * Initialize starting point for the player and give it 5 lives to start with
+ * Make it a subclass of Enemy class
  */
 var Player = function() {
-
+    Enemy.call(this);
     this.sprite = 'images/char-boy.png';
     this.x = this.xLength * this.xStart;
     this.y = this.yLength * this.yStart;
     this.lives = 5;
 };
 
-// Player's width
-Player.prototype.xLength = 101;
-// Player's height
-Player.prototype.yLength = 83;
+Player.prototype = Object.create(Enemy.prototype);
+Player.prototype.constructor = Player;
+
 // Starting x and y coordinate multipliers for player
 Player.prototype.xStart = 2;
 Player.prototype.yStart = 4.8;
@@ -82,13 +83,6 @@ Player.prototype.downBound = 38;
 
 // The Y level at which player wins
 Player.prototype.victoryY = 66;
-
-/**
- * Render the player on screen
- */
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-};
 
 /**
  * Handle player movement
@@ -128,7 +122,6 @@ Player.prototype.handleInput = function(key) {
 
     }
 };
-
 
 // Instantiating objects.
 // Place all enemy objects in an array called allEnemies
